@@ -7,6 +7,6 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "express": "^4.17.2"  // Replace with any dependencies your app needs
+    "express": "^4.17.2" 
   }
 }
