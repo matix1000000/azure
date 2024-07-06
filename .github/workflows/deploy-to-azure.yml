@@ -19,9 +19,11 @@ jobs:
     - name: Pull Docker image
       run: docker pull hello-world:latest
 
-    - name: Deploy to Azure Web App
-      uses: azure/webapps-container-deploy@v2
-      with:
-        app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
-        images: hello-world:latest
-        container-command: "python app.py"  # Adjust this according to your application startup command
+    - name: Deploy to Azure Web App using Azure CLI
+      env:
+        AZURE_WEBAPP_NAME: ${{ secrets.AZURE_WEBAPP_NAME }}
+        AZURE_WEBAPP_PUBLISH_PROFILE: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+      run: |
+        az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID
+        az webapp deployment container config --name $AZURE_WEBAPP_NAME --resource-group $AZURE_RESOURCE_GROUP --docker-registry-server-url https://index.docker.io --docker-custom-image-name hello-world:latest
+  
