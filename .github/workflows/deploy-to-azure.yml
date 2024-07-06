@@ -20,8 +20,8 @@ jobs:
       run: docker pull hello-world:latest
 
     - name: Deploy to Azure Web App
-      uses: azure/webapps-container-deploy@v1
+      uses: azure/webapps-container-deploy@v2
       with:
         app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
         images: hello-world:latest
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        container-command: "python app.py"  # Adjust this according to your application startup command
